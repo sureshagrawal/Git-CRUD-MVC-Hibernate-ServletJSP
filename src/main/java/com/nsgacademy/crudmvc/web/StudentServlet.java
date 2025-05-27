@@ -77,34 +77,75 @@ public class StudentServlet extends HttpServlet {
         request.getRequestDispatcher("student-form.jsp").forward(request, response);
     }
 
+//    private void insertStudent(HttpServletRequest request, HttpServletResponse response)
+//            throws IOException, DAOException {
+//        String name = request.getParameter("name");
+//        String email = request.getParameter("email");
+//        String mobile = request.getParameter("mobile");
+//
+//        if (validateStudent(name, email, mobile)) {
+//            studentDAO.insertStudent(new Student(name, email, mobile));
+//            response.sendRedirect("list?success=Added Successfully");
+//        } else {
+//            response.sendRedirect("new?error=Validation Failed");
+//        }
+//    }
+
     private void insertStudent(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, DAOException {
+            throws ServletException, IOException, DAOException {
+
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String mobile = request.getParameter("mobile");
 
-        if (validateStudent(name, email, mobile)) {
-            studentDAO.insertStudent(new Student(name, email, mobile));
+        Student student = new Student(name, email, mobile);
+        String error = validateForm(name, email, mobile);
+
+        if (error == null) {
+            studentDAO.insertStudent(student);
             response.sendRedirect("list?success=Added Successfully");
         } else {
-            response.sendRedirect("new?error=Validation Failed");
+            request.setAttribute("error", error);
+            request.setAttribute("student", student);
+            request.getRequestDispatcher("student-form.jsp").forward(request, response);
         }
     }
 
     private void updateStudent(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, DAOException {
+            throws ServletException, IOException, DAOException {
+
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String mobile = request.getParameter("mobile");
 
-        if (validateStudent(name, email, mobile)) {
-            studentDAO.updateStudent(new Student(id, name, email, mobile));
+        Student student = new Student(id, name, email, mobile);
+        String error = validateForm(name, email, mobile);
+
+        if (error == null) {
+            studentDAO.updateStudent(student);
             response.sendRedirect("list?success=Updated Successfully");
         } else {
-            response.sendRedirect("edit?id=" + id + "&error=Validation Failed");
+            request.setAttribute("error", error);
+            request.setAttribute("student", student);
+            request.getRequestDispatcher("student-form.jsp").forward(request, response);
         }
     }
+
+//    private void updateStudent(HttpServletRequest request, HttpServletResponse response)
+//            throws IOException, DAOException {
+//        int id = Integer.parseInt(request.getParameter("id"));
+//        String name = request.getParameter("name");
+//        String email = request.getParameter("email");
+//        String mobile = request.getParameter("mobile");
+//
+//        if (validateStudent(name, email, mobile)) {
+//            studentDAO.updateStudent(new Student(id, name, email, mobile));
+//            response.sendRedirect("list?success=Updated Successfully");
+//        } else {
+//            response.sendRedirect("edit?id=" + id + "&error=Validation Failed");
+//        }
+//    }
 
     private void deleteStudent(HttpServletRequest request, HttpServletResponse response)
             throws IOException, DAOException {
@@ -113,9 +154,20 @@ public class StudentServlet extends HttpServlet {
         response.sendRedirect("list?success=Deleted Successfully");
     }
 
-    private boolean validateStudent(String name, String email, String mobile) {
-        return name != null && !name.trim().isEmpty()
-                && email != null && email.contains("@")
-                && mobile != null && mobile.matches("\\d{10}");
+    private String validateForm(String name, String email, String mobile) {
+        if (name == null || name.trim().isEmpty()) {
+            return "Name is required.";
+        } else if (email == null || !email.contains("@")) {
+            return "Valid email is required.";
+        } else if (mobile == null || !mobile.matches("\\d{10}")) {
+            return "Mobile number must be 10 digits.";
+        }
+        return null;
     }
+
+//    private boolean validateStudent(String name, String email, String mobile) {
+//        return name != null && !name.trim().isEmpty()
+//                && email != null && email.contains("@")
+//                && mobile != null && mobile.matches("\\d{10}");
+//    }
 }
