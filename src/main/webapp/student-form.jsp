@@ -24,9 +24,16 @@
             Student student = (Student) request.getAttribute("student");
             boolean isEdit = student != null;
         %>
-        <form action="<%= isEdit ? "update" : "insert" %>" method="post">
-            <h2><%= isEdit ? "Edit Student" : "Add New Student" %></h2>
+        <h2><%= isEdit ? "Edit Student" : "Add New Student" %></h2>
 
+        <%
+            String error = request.getParameter("error");
+            if (error != null) {
+        %>
+        	<div class="alert alert-danger"><%= error %></div>
+    	<% } %>
+
+        <form action="<%= isEdit ? "update" : "insert" %>" method="post">
             <% if (isEdit) { %>
                 <input type="hidden" name="id" value="<%= student.getId() %>" />
             <% } %>
@@ -61,4 +68,3 @@
 </body>
 
 </html>
-

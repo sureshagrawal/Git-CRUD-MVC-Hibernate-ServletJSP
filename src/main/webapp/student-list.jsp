@@ -1,4 +1,3 @@
-//student-list.jsp
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.List" %>
@@ -23,10 +22,19 @@
     <div class="container my-5">
 
         <h1 class="text-center">MVC CRUD APPLICATION</h1>
-        <h3 class="text-center">Using JSP AND Servlet</h3>
+        <h3 class="text-center">Using Hibernate, Servlet AND JSP</h3>
 
         <a href="new" class="btn btn-primary mb-5"><i
             class="fa-solid fa-user-plus m-1"></i>Add Student</a>
+
+        <%
+            String success = request.getParameter("success");
+            if (success != null) {
+        %>
+            <div class="alert alert-success text-center"><%= success %></div>
+        <%
+            }
+        %>
 
         <table class="table table-hover table-striped ">
             <thead class="bg-dark text-light">
