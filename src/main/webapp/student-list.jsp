@@ -22,7 +22,7 @@
     <div class="container my-5">
 
         <h1 class="text-center">MVC CRUD APPLICATION</h1>
-        <h3 class="text-center">Using Hibernate, Servlet AND JSP</h3>
+        <h3 class="text-center">Using Hibernate(JPA), Servlet AND JSP</h3>
 
         <a href="new" class="btn btn-primary mb-5"><i
             class="fa-solid fa-user-plus m-1"></i>Add Student</a>

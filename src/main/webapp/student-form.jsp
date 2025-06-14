@@ -18,7 +18,7 @@
 
     <div class="container my-5">
         <h1 class="text-center">MVC CRUD APPLICATION</h1>
-        <h3 class="text-center">Using JSP AND Servlet</h3>
+        <h3 class="text-center">Using Hibernate(JPA), Servlet AND JSP</h3>
 
         <%
             Student student = (Student) request.getAttribute("student");
